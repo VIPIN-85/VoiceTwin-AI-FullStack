@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceTwin AI — Voice Studio</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="brand"><span class="logo">✦</span><span>VoiceTwin <b>AI</b></span></div><span class="pill">AI VOICE STUDIO</span></header>
+<main>
+<section class="hero"><p class="eyebrow">YOUR VOICE, YOUR STORY</p><h1>Give your words<br><span>a voice of their own.</span></h1><p class="intro">Create expressive speech using a voice sample. Real generation requires a configured backend and provider API key.</p></section>
+<div class="layout">
+<section class="panel">
+<div class="panel-head"><span class="step">01</span><div><h2>Clone a voice</h2><p>Upload a clean recording of a voice you have permission to use.</p></div></div>
+<label class="drop" for="reference"><span class="upload">↑</span><strong id="file-label">Choose a voice sample</strong><small>WAV, MP3, FLAC · 10–15 seconds recommended</small><input id="reference" type="file" accept="audio/*" required></label>
+<label for="voice-name">Voice name</label><input id="voice-name" value="my-voice" maxlength="100">
+<label for="language">Output language</label><select id="language"><option value="en-IN">English (India)</option><option value="hi-IN">Hindi</option><option value="bn-IN">Bengali</option><option value="ta-IN">Tamil</option><option value="te-IN">Telugu</option><option value="mr-IN">Marathi</option><option value="gu-IN">Gujarati</option><option value="kn-IN">Kannada</option><option value="ml-IN">Malayalam</option><option value="pa-IN">Punjabi</option><option value="od-IN">Odia</option><option value="as-IN">Assamese</option></select>
+<label for="style">Speaking style</label><select id="style"><option value="conversational">Conversational</option><option value="audiobooks">Audiobook</option><option value="entertainment">Entertainment</option><option value="sales">Sales</option></select>
+<label for="speed">Speech speed <span id="speed-label">1.0×</span></label><input id="speed" type="range" min="0.5" max="2" value="1" step="0.1">
+<div class="panel-head second"><span class="step">02</span><div><h2>Write your script</h2><p>Up to 1,000 characters per generation.</p></div></div>
+<textarea id="script" maxlength="1000" placeholder="Type what you want your cloned voice to say...">Hello! Welcome to VoiceTwin AI. This is a sample of my generated voice.</textarea><div class="counter"><span id="count">75</span>/1000</div>
+<button id="generate" class="primary">Generate cloned voice <span>↗</span></button>
+<p class="fine">Only clone your own voice or a voice you have explicit permission to use.</p>
+</section>
+<section class="panel result">
+<div class="panel-head"><span class="step">03</span><div><h2>Your generated audio</h2><p>Results from the configured AI provider appear here.</p></div></div>
+<div id="status" class="status"><span class="status-dot"></span><span>Waiting for your voice sample</span></div>
+<div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<audio id="player" controls hidden></audio><a id="download" class="download" hidden download="voicetwin-output.wav">Download audio ↓</a>
+<div class="info"><b>Backend status</b><span id="backend-status">Checking connection…</span><button id="settings" class="text-button">Connection settings</button></div>
+<div class="avatar-box"><span class="avatar-icon">◉</span><div><b>Talking avatar</b><p>Optional HeyGen integration. Configure it in backend/.env.</p></div><a href="https://www.heygen.com/" target="_blank" rel="noreferrer">Open HeyGen ↗</a></div>
+</section>
+</div>
+<footer>VoiceTwin AI · Secure API-key handling · No simulated audio</footer>
+</main>
+<div id="settings-modal" class="modal" hidden><div class="modal-card"><button id="close-modal" class="close">×</button><h2>Backend connection</h2><p>Enter the URL where your FastAPI backend is running. API keys belong in <code>backend/.env</code>, never here.</p><label for="backend-url">Backend URL</label><input id="backend-url" value="http://127.0.0.1:8000"><button id="save-settings" class="primary">Save connection</button></div></div>
+<script src="script.js"></script>
+</body></html>
