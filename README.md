@@ -1,76 +1,215 @@
-# VoiceTwin AI — Windows full-stack starter
+# ✨ VoiceTwin AI — Full-Stack Voice Studio
 
-This project contains a browser frontend and a Python FastAPI backend. **Real voice cloning is integrated with Sarvam AI's hosted Instant Voice Cloning API.** No local AI model is needed for this feature; the provider performs inference in its cloud.
+**VoiceTwin AI** is a full-stack AI voice application that allows users to generate speech using a voice sample. It combines a modern web interface with a Python FastAPI backend and cloud-based AI services.
 
-## Requirements
-- Windows 10/11
-- Python 3.10 or newer (3.11 recommended)
-- Internet connection
-- Sarvam account and API key
-- A clean 10–15 second audio sample of a voice you own or have permission to clone
+The project integrates **Sarvam AI** for voice cloning and speech generation, with optional **HeyGen** integration for talking-avatar video generation.
 
-## Quick start (Windows)
+## 🚀 Features
 
-1. Install Python from https://www.python.org/downloads/ and enable **Add Python to PATH**.
-2. Extract this ZIP to a folder such as `C:\VoiceTwin-AI`.
-3. Open Command Prompt and run:
+- 🎙️ **AI Voice Cloning** — Generate speech using an authorized reference voice recording.
+- 🗣️ **Multilingual Speech** — Choose from supported Indian languages, including English, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi, Odia, and Assamese.
+- ✍️ **Custom Text-to-Speech** — Enter your own script and generate spoken audio.
+- 🎚️ **Voice Controls** — Configure speaking style, language, and speech speed.
+- 🔊 **Audio Playback** — Listen to generated audio directly in your browser.
+- 📥 **Audio Download** — Download generated speech as a WAV file.
+- 🧑‍💻 **Optional Talking Avatar** — Integrate HeyGen for avatar video generation.
+- ⚡ **FastAPI Backend** — Connect the frontend to external AI services through a Python API.
+- 🔐 **Environment-Based Configuration** — Keep API credentials on the backend instead of exposing them in frontend JavaScript.
+- 🎨 **Modern Web Interface** — A clean, responsive voice-generation studio.
 
-```bat
-cd C:\VoiceTwin-AI\backend
-python -m venv .venv
-.venv\Scripts\activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-copy .env.example .env
-notepad .env
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| HTML5 | Application structure |
+| CSS3 | Styling and responsive interface |
+| JavaScript | Frontend interactions |
+| Python | Backend development |
+| FastAPI | REST API |
+| Uvicorn | Development server |
+| Sarvam AI | Voice cloning and speech generation |
+| HeyGen | Optional avatar video generation |
+| HTTPX | Requests to external APIs |
+
+## 📁 Project Structure
+
+```text
+VoiceTwin-AI-FullStack/
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── .env.example
+│   ├── .gitignore
+│   └── outputs/
+│       └── .gitkeep
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── README.md
 ```
 
-4. In the `.env` file, replace `put_your_sarvam_api_key_here` with your Sarvam API key. Save and close Notepad.
-5. Start the backend:
+## ⚙️ Prerequisites
 
-```bat
+Before running the project, install:
+
+- Python 3.10 or newer
+- A modern web browser
+- An internet connection
+- A Sarvam AI API key
+- Optional: a HeyGen API key and valid avatar and voice IDs
+
+## 💻 Installation and Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/VoiceTwin-AI-FullStack.git
+cd VoiceTwin-AI-FullStack
+```
+
+Replace `YOUR-USERNAME` with your GitHub username.
+
+### 2. Set up the backend
+
+Open a terminal in the project directory:
+
+```bash
+cd backend
+python -m venv .venv
+```
+
+Activate the virtual environment on Windows:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Install the dependencies:
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 3. Configure environment variables
+
+Copy the example configuration file:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Open `backend/.env` and add your Sarvam AI API key:
+
+```env
+SARVAM_API_KEY=your_sarvam_api_key
+HEYGEN_API_KEY=
+HEYGEN_AVATAR_ID=
+HEYGEN_VOICE_ID=
+PUBLIC_BASE_URL=http://127.0.0.1:8000
+```
+
+Obtain a Sarvam API key from the [Sarvam AI Dashboard](https://dashboard.sarvam.ai/).
+
+For optional avatar generation, configure the appropriate HeyGen credentials.
+
+**Security:** Never commit your actual `.env` file or publish API keys.
+
+### 4. Start the backend server
+
+From the `backend` directory, run:
+
+```bash
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-6. Open a second Command Prompt, go to the extracted `frontend` folder, and run:
+The backend will run at:
 
-```bat
-cd C:\VoiceTwin-AI\frontend
+`http://127.0.0.1:8000`
+
+Interactive API documentation is available at:
+
+`http://127.0.0.1:8000/docs`
+
+### 5. Start the frontend
+
+Open a second terminal in the project root:
+
+```bash
+cd frontend
 python -m http.server 5500
 ```
 
-7. Open http://127.0.0.1:5500 in your browser. The status should say the backend is connected and Sarvam configured.
+Open the application in your browser:
 
-## Get a Sarvam API key
-- Create/sign into an account at https://dashboard.sarvam.ai/
-- Open Key Management and create a key.
-- Add it only to `backend\.env`; do not place it in frontend JavaScript or commit it to Git.
-- Voice cloning docs: https://docs.sarvam.ai/api/api-guides-tutorials/voice-cloning/overview
+`http://127.0.0.1:5500`
 
-## What the real integration does
-- `POST /api/generate/voice`: accepts the uploaded reference recording and text, calls Sarvam's `POST /voices/create`, then `POST /voices/clone`, decodes the returned WAV audio, and returns a local playback URL.
-- `GET /api/health`: reports whether provider keys are configured.
-- `POST /api/generate/avatar`: optional HeyGen integration (details below).
-- `GET /api/jobs/{job_id}`: checks the HeyGen job status.
+Keep both servers running while using the application.
 
-Sarvam's voice-cloning API is currently documented as beta. The reference audio for direct inline generation is limited to 10 MB and 15 seconds; saved voice creation accepts up to 50 MB. Text generation accepts 1–1000 characters per request. A free plan keeps up to 5 cloned voices. Pricing/credits may change: check the current Sarvam dashboard and pricing before production use. API errors (including insufficient credits or account-tier limits) are shown in the frontend status area.
+## 🔌 API Endpoints
 
-## Optional HeyGen avatar video
-Avatar video is separate from Sarvam voice cloning and may require paid HeyGen API credits. To enable it:
-1. Get an API key from https://developers.heygen.com/.
-2. Obtain a valid `avatar_id` and `voice_id` from your HeyGen account.
-3. Add `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID`, and `HEYGEN_VOICE_ID` to `.env`.
-4. Restart Uvicorn.
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Check backend and provider configuration |
+| POST | `/api/generate/voice` | Generate speech using a reference voice |
+| POST | `/api/generate/avatar` | Request talking-avatar video generation |
+| GET | `/api/jobs/{job_id}` | Check the status of an avatar-generation job |
 
-The starter avatar endpoint generates a HeyGen video from script text using the configured HeyGen avatar and voice. It accepts the portrait field for frontend compatibility but does not yet upload/use that portrait as a custom avatar. It returns a job ID; status checks use HeyGen's status API. A public HTTPS deployment and additional asset-upload work are required for a production custom-photo workflow.
+The avatar endpoints require appropriate HeyGen configuration. Voice generation requires a valid Sarvam API key and an account with the necessary API access.
 
-## What is NOT installed locally
-No voice-cloning model files, GPU, CUDA, or local speech model installation is required for Sarvam or HeyGen: they are hosted APIs. The FastAPI server is a thin secure bridge. The browser animation is decorative only; generated audio is real provider output.
+## 🔄 How It Works
 
-## Security and production notes
-- Never expose API keys in frontend files.
-- Do not deploy the development server with `--reload` to the public internet.
-- Add authentication, rate limits, per-user quotas, storage cleanup, and HTTPS before public deployment.
-- Get explicit permission before cloning or animating anyone's voice or likeness.
-- Audio files are written to `backend/outputs/`. Delete these files when no longer needed.
-- The development CORS policy allows only localhost frontend origins. Update it intentionally if deploying the frontend elsewhere.
+1. Start the frontend and backend servers.
+2. Upload a clean reference recording of a voice you own or have permission to use.
+3. Enter the text you want to generate.
+4. Select a language, speaking style, and speech speed.
+5. Submit the request to the FastAPI backend.
+6. The backend communicates with Sarvam AI to create the voice and generate speech.
+7. Listen to the generated audio and download the resulting WAV file.
+
+The optional avatar workflow uses HeyGen's configured avatar and voice to request a video-generation job.
+
+## 🔒 Security and Responsible Use
+
+- Clone only your own voice or a voice you have explicit permission to use.
+- Never expose API keys in client-side code or public repositories.
+- Keep `.env` files and generated private recordings out of version control.
+- Use HTTPS, authentication, request limits, and appropriate access controls before public deployment.
+- Review the privacy policies, usage requirements, and pricing of the external AI providers.
+- Delete generated audio files when they are no longer needed.
+
+## ⚠️ Important Notes
+
+- Voice cloning and avatar generation depend on external cloud APIs and valid credentials.
+- Some provider features may require paid credits or specific account permissions.
+- The optional avatar integration uses configured HeyGen avatar and voice IDs; uploading a portrait does not currently create a custom avatar automatically.
+- This project is a development starter and requires additional security and deployment configuration before production use.
+
+## 🗺️ Future Improvements
+
+Potential future enhancements include:
+
+- User authentication and personalized voice libraries
+- Voice-generation history and improved file management
+- Background job processing and generation progress indicators
+- Production deployment with HTTPS
+- Improved error handling, usage limits, and monitoring
+- Expanded voice and avatar customization
+
+## 🤝 Contributing
+
+Contributions, suggestions, and bug reports are welcome.
+
+1. Fork this repository.
+2. Create a feature branch.
+3. Make and test your changes.
+4. Submit a pull request with a clear description.
+
+## 📄 License
+
+No license has been specified yet. Add a suitable open-source license before permitting others to reuse, modify, or distribute this project.
+
+---
+
+**Built with Python, FastAPI, JavaScript, and AI-powered voice technology.**
